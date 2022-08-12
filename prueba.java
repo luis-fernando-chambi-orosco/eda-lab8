@@ -11,11 +11,11 @@ BTree<Integer> a = new BTree<Integer>(3);
         a.add(9);
 
         System.out.println("Arbol:");
-        a.recorrido();
+        a.size();
         System.out.println("Eliminando elementos");
         a.remove(54);
         a.remove(69);
         System.out.println("Arbol después de haber eliminado:");
-        a.recorrido();
+        a.size();
 }
 }
