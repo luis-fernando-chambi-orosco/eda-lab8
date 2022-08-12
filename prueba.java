@@ -1,6 +1,6 @@
 public class prueba {
 	public static void main(String[] args) {
-BTree<Integer> a = new BTree<Integer>(3);
+BTree<Integer> a = new BTree<Integer>();
 
         a.add(1);
         a.add(2);
