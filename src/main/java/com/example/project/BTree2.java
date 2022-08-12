@@ -1,7 +1,7 @@
 package com.example.project;
 
 class BTree2{
-    BTreeNode root;
+    bnodegeneric root;
     int MinDeg;
 
     // Constructor
@@ -17,7 +17,7 @@ class BTree2{
     }
 
     // Function to find key
-    public BTreeNode search(int key){
+    public bnodegeneric search(int key){
         return root == null ? null : root.search(key);
     }
 
@@ -25,14 +25,14 @@ class BTree2{
 
         if (root == null){
 
-            root = new BTreeNode(MinDeg,true);
+            root = new bnodegeneric(MinDeg,true);
             root.keys[0] = key;
             root.num = 1;
         }
         else {
             // When the root node is full, the tree will grow high
             if (root.num == 2*MinDeg-1){
-                BTreeNode s = new BTreeNode(MinDeg,false);
+                bnodegeneric s = new bnodegeneric(MinDeg,false);
                 // The old root node becomes a child of the new root node
                 s.children[0] = root;
                 // Separate the old root node and give a key to the new node

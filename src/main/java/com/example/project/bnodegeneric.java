@@ -1,20 +1,23 @@
 package com.example.project;
 
-public class BTreeNode{
+import java.util.Vector;
 
-    int[] keys; // keys of nodes
+public class bnodegeneric<T>{
+
+
+    Vector<T> keys; // keys of nodes
     int MinDeg; // Minimum degree of B-tree node
-    BTreeNode[] children; // Child node
+    Vector<bnodegeneric> children; // Child node
     int num; // Number of keys of node
     boolean isLeaf; // True when leaf node
 
     // Constructor
-    public BTreeNode(int deg,boolean isLeaf){
+    public bnodegeneric(int deg,boolean isLeaf){
 
         this.MinDeg = deg;
         this.isLeaf = isLeaf;
-        this.keys = new int[2*this.MinDeg-1]; // Node has 2*MinDeg-1 keys at most
-        this.children = new BTreeNode[2*this.MinDeg];
+        this.keys = new Vector<>(E); // Node has 2*MinDeg-1 keys at most
+        this.children = new bnodegeneric[2*this.MinDeg];
         this.num = 0;
     }
 
@@ -105,7 +108,7 @@ public class BTreeNode{
     public int getPred(int idx){ // The predecessor node is the node that always finds the rightmost node from the left subtree
 
         // Move to the rightmost node until you reach the leaf node
-        BTreeNode cur = children[idx];
+        bnodegeneric cur = children[idx];
         while (!cur.isLeaf)
             cur = cur.children[cur.num];
         return cur.keys[cur.num-1];
@@ -114,7 +117,7 @@ public class BTreeNode{
     public int getSucc(int idx){ // Subsequent nodes are found from the right subtree all the way to the left
 
         // Continue to move the leftmost node from children[idx+1] until it reaches the leaf node
-        BTreeNode cur = children[idx+1];
+        bnodegeneric cur = children[idx+1];
         while (!cur.isLeaf)
             cur = cur.children[0];
         return cur.keys[0];
@@ -143,8 +146,8 @@ public class BTreeNode{
     // Borrow a key from children[idx-1] and insert it into children[idx]
     public void borrowFromPrev(int idx){
 
-        BTreeNode child = children[idx];
-        BTreeNode sibling = children[idx-1];
+        bnodegeneric child = children[idx];
+        bnodegeneric sibling = children[idx-1];
 
         // The last key from children[idx-1] overflows to the parent node
         // The key[idx-1] underflow from the parent node is inserted as the first key in children[idx]
@@ -171,8 +174,8 @@ public class BTreeNode{
     // Symmetric with borowfromprev
     public void borrowFromNext(int idx){
 
-        BTreeNode child = children[idx];
-        BTreeNode sibling = children[idx+1];
+        bnodegeneric child = children[idx];
+        bnodegeneric sibling = children[idx+1];
 
         child.keys[child.num] = keys[idx];
 
@@ -195,8 +198,8 @@ public class BTreeNode{
     // Merge childre[idx+1] into childre[idx]
     public void merge(int idx){
 
-        BTreeNode child = children[idx];
-        BTreeNode sibling = children[idx+1];
+        bnodegeneric child = children[idx];
+        bnodegeneric sibling = children[idx+1];
 
         // Insert the last key of the current node into the MinDeg-1 position of the child node
         child.keys[MinDeg-1] = keys[idx];
@@ -251,10 +254,10 @@ public class BTreeNode{
     }
 
 
-    public void splitChild(int i ,BTreeNode y){
+    public void splitChild(int i ,bnodegeneric y){
 
         // First, create a node to hold the keys of MinDeg-1 of y
-        BTreeNode z = new BTreeNode(y.MinDeg,y.isLeaf);
+        bnodegeneric z = new bnodegeneric(y.MinDeg,y.isLeaf);
         z.num = MinDeg - 1;
 
         // Pass the properties of y to z
@@ -294,7 +297,7 @@ public class BTreeNode{
     }
 
 
-    public BTreeNode search(int key){
+    public bnodegeneric search(int key){
         int i = 0;
         while (i < num && key > keys[i])
             i++;
