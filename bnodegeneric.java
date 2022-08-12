@@ -59,7 +59,7 @@ public class bnodegeneric<T extends Comparable <T>>{
 
     public void removeFromLeaf(int idx){
 
-        // Shift from idx
+       
         for (int i = idx +1;i < num;++i)
             keys.set(i - 1, keys.get(i));
         num --;
@@ -91,28 +91,25 @@ public class bnodegeneric<T extends Comparable <T>>{
         return cur.keys.get(cur.num - 1);
     }
 
-    public T getSucc(int idx){ // Subsequent nodes are found from the right subtree all the way to the left
-
-        // Continue to move the leftmost node from children[idx+1] until it reaches the leaf node
+    public T getSucc(int idx){ 
+        
         bnodegeneric<T> cur = children.get(idx);
         while (!cur.isLeaf)
             cur = cur.children.get(0);
         return cur.keys.get(0);
     }
 
-    // Fill children[idx] with less than MinDeg keys
+    
     public void fill(int idx){
 
-        // If the previous child node has multiple MinDeg-1 keys, borrow from them
+       
         if (idx != 0 && children.get(idx-1).num >= MinDeg)
             borrowFromPrev(idx);
-        // The latter sub node has multiple MinDeg-1 keys, from which to borrow
+        
         else if (idx != num && children.get(idx+1).num >= MinDeg)
             borrowFromNext(idx);
         else{
-            // Merge children[idx] and its brothers
-            // If children[idx] is the last child node
-            // Then merge it with the previous child node or merge it with its next sibling
+            
             if (idx != num)
                 merge(idx);
             else
@@ -137,13 +134,13 @@ public class bnodegeneric<T extends Comparable <T>>{
         if (!child.isLeaf) 
            child.children.set(0,sibling.children.elementAt(sibling.num));
 
-        // Move the last key of sibling up to the last key of the current node
+        
         keys.set(idx-1, sibling.keys.elementAt(sibling.num-1));
         child.num += 1;
         sibling.num -= 1;
     }
 
-    // Symmetric with borowfromprev
+    
     public void borrowFromNext(int idx){
 
       bnodegeneric<T> child = children.get(idx);
@@ -166,7 +163,7 @@ public class bnodegeneric<T extends Comparable <T>>{
         sibling.num -= 1;
     }
 
-    // Merge childre[idx+1] into childre[idx]
+    
     public void merge(int idx){
 
         bnodegeneric<T> child = children.get(idx);
