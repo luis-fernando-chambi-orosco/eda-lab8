@@ -5,13 +5,6 @@ public class BTree<T extends Comparable<? super T>> {
     	if(search(value) == true){
     		return false;
     	}
-    	else {
-    		if (root == null){
-
-            }
-
-            
-    }
 }
     public void remove( T value) {
        if (root == null){
